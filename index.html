@@ -10,6 +10,9 @@
             background-color: black;
             color: red;
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
         }
         #game-container {
             display: flex;
@@ -25,6 +28,11 @@
         #timer {
             font-size: 24px;
         }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -36,9 +44,22 @@
         let countdown = 45;
         let timerElement = document.getElementById("timer");
         let statusElement = document.getElementById("status");
-        let audio = new Audio("https://github.com/candycanezaeq/god-us-coming-test/blob/fa58bd63322c1dfa29e4e81df8ecb14f5d70282c/squirrel-stapler-god-is-coming-first-part-made-with-Voicemod.mp3");
-        
-        audio.play();
+
+        // Audio URLs (using raw.githubusercontent.com)
+        const audioPart1 = new Audio("https://raw.githubusercontent.com/candycanezaeq/god-us-coming-test/cdef25dc7ba9c1018075127ffca36b52a2772738/squirrel-stapler-god-is-coming-first-part-made-with-Voicemod.mp3");
+        const audioPart2 = new Audio("https://raw.githubusercontent.com/candycanezaeq/god-us-coming-test/cdef25dc7ba9c1018075127ffca36b52a2772738/squirrel-stapler-god-is-coming-part2-made-with-Voicemod.mp3");
+
+        // Image URL (using raw.githubusercontent.com)
+        const godImage = "https://raw.githubusercontent.com/candycanezaeq/god-us-coming-test/cdef25dc7ba9c1018075127ffca36b52a2772738/IMG_0199.gif";
+
+        // Play Part 1 and set up Part 2 to play immediately after
+        audioPart1.play();
+        audioPart1.onended = () => {
+            audioPart2.loop = true;
+            audioPart2.play();
+        };
+
+        // Start the countdown
         let timer = setInterval(() => {
             countdown--;
             timerElement.textContent = countdown;
@@ -47,25 +68,29 @@
                 triggerGodIsHere();
             }
         }, 1000);
-        
+
+        // Function to trigger "GOD IS HERE"
         function triggerGodIsHere() {
             document.body.innerHTML = "";
             document.body.style.backgroundColor = "black";
+
+            // Display the GIF
             let img = document.createElement("img");
-            img.src = "https://github.com/candycanezaeq/god-us-coming-test/blob/fa58bd63322c1dfa29e4e81df8ecb14f5d70282c/IMG_0199.gif";
-            img.style.position = "absolute";
-            img.style.width = "100%";
-            img.style.height = "100%";
+            img.src = godImage;
             document.body.appendChild(img);
-            
-            let newAudio = new Audio("https://github.com/candycanezaeq/god-us-coming-test/blob/fa58bd63322c1dfa29e4e81df8ecb14f5d70282c/squirrel-stapler-god-is-coming-part2-made-with-Voicemod.mp3");
-            newAudio.loop = true;
-            newAudio.play();
-            
+
+            // Play Part 2 audio
+            audioPart2.loop = true;
+            audioPart2.play();
+
+            // Enter fullscreen mode
             document.documentElement.requestFullscreen();
+
+            // Open multiple tabs with the GIF
             openGodTabs();
         }
-        
+
+        // Function to open multiple tabs with the GIF
         function openGodTabs() {
             let tabs = [];
             for (let i = 0; i < 5; i++) {
@@ -73,11 +98,12 @@
                 if (win) {
                     tabs.push(win);
                     let img = win.document.createElement("img");
-                    img.src = "https://github.com/candycanezaeq/god-us-coming-test/blob/fa58bd63322c1dfa29e4e81df8ecb14f5d70282c/IMG_0199.gif";
+                    img.src = godImage;
                     img.style.width = "100%";
                     img.style.height = "100%";
                     win.document.body.appendChild(img);
-                    
+
+                    // Move the window randomly
                     let moveInterval = setInterval(() => {
                         let left = Math.random() * (window.screen.width - 200);
                         let top = Math.random() * (window.screen.height - 200);
@@ -88,4 +114,4 @@
         }
     </script>
 </body>
-</html> 
+</html>
