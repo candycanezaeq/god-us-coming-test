@@ -1,0 +1,217 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOD IS COMING</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #000;
+            color: #f00;
+            font-family: 'HelpMe', monospace;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            cursor: none; /* Hide the cursor */
+            user-select: none; /* Prevent text selection */
+        }
+
+        @font-face {
+            font-family: 'HelpMe';
+            src: url('/HelpMe-Yz7Lq.ttf') format('truetype');
+        }
+        
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        #status {
+            font-size: 3em;
+            margin-bottom: 0.5em;
+            text-shadow: 0 0 0.5em red;
+            animation: glitch-skew 1s infinite linear alternate-reverse;
+        }
+        #timer {
+            font-size: 2em;
+            text-shadow: 0 0 0.3em red;
+             animation: glitch-skew 1s infinite linear alternate-reverse;
+        }
+        #god-eye {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background-image: url('https://raw.githubusercontent.com/candycanezaeq/god-us-coming-test/cdef25dc7ba9c1018075127ffca36b52a2772738/IMG_0199.gif'); /* Replace with your eye image */
+            background-size: cover;
+            z-index: -1;
+            opacity: 0.5;
+            border-radius: 50%;
+        }
+        .glitch {
+            animation: glitch-skew 1s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-skew {
+            0% {
+                transform: skew(3deg, 3deg);
+            }
+            100% {
+                transform: skew(-2deg, -2deg);
+            }
+        }
+
+        .shake {
+            animation: shake 0.5s linear infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(-50%, -50%) rotate(0); }
+            10% { transform: translate(-55%, -45%) rotate(-5deg); }
+            20% { transform: translate(-45%, -55%) rotate(5deg); }
+            30% { transform: translate(-52%, -48%) rotate(-3deg); }
+            40% { transform: translate(-48%, -52%) rotate(3deg); }
+            50% { transform: translate(-53%, -47%) rotate(-2deg); }
+            60% { transform: translate(-47%, -53%) rotate(2deg); }
+            70% { transform: translate(-51%, -49%) rotate(-1deg); }
+            80% { transform: translate(-49%, -51%) rotate(1deg); }
+            90% { transform: translate(-54%, -46%) rotate(-4deg); }
+            100% { transform: translate(-46%, -54%) rotate(4deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1 id="status" class="glitch">GOD IS COMING</h1>
+        <p id="timer" class="glitch">45</p>
+    </div>
+    <div id="god-eye"></div>
+
+    <script>
+        let countdown = 45;
+        let timerElement = document.getElementById("timer");
+        let statusElement = document.getElementById("status");
+        let godEye = document.getElementById("god-eye");
+        let gameContainer = document.getElementById("game-container");
+
+        // Audio
+        const audioPart1 = new Audio("/GodIsComing.wav");
+        const audioPart2 = new Audio("/GodIsComing.wav"); // Using same audio for simplicity
+
+        // Initial eye size and speed
+        let eyeSize = 50;
+        let eyeSpeed = 1.01; // Increase size by 5% each interval
+
+        // Play Part 1
+        audioPart1.play();
+        audioPart1.onended = () => {
+            audioPart2.loop = true;
+            audioPart2.play();
+        };
+
+        // Start the countdown
+        let timerInterval = setInterval(() => {
+            countdown--;
+            timerElement.textContent = countdown;
+
+            // Eye gets closer
+            eyeSize *= eyeSpeed;
+            godEye.style.width = eyeSize + "px";
+            godEye.style.height = eyeSize + "px";
+
+             // Increase speed gradually
+             eyeSpeed += 0.001;
+
+            // Add glitch effect every few seconds
+            if (countdown % 5 === 0) {
+                statusElement.classList.add("glitch");
+                timerElement.classList.add("glitch");
+                setTimeout(() => {
+                    statusElement.classList.remove("glitch");
+                    timerElement.classList.remove("glitch");
+                }, 500);
+            }
+
+            if (countdown <= 0) {
+                clearInterval(timerInterval);
+                triggerGodIsHere();
+            }
+        }, 1000);
+
+        // Function to trigger "GOD IS HERE"
+        function triggerGodIsHere() {
+             // Stop Audio
+            audioPart1.pause();
+            audioPart2.pause();
+
+            // Full screen eye
+            godEye.style.width = "100vw";
+            godEye.style.height = "100vh";
+            godEye.style.borderRadius = "0";
+            godEye.style.zIndex = "1000";
+            godEye.classList.add("shake");
+
+            // Shake the screen
+            gameContainer.classList.add("shake");
+
+            // Remove shake after a while, and then hide everything
+            setTimeout(() => {
+                gameContainer.classList.remove("shake");
+                godEye.classList.remove("shake");
+                // Hide everything except the eye
+                timerElement.style.display = "none";
+                statusElement.style.display = "none";
+                document.body.style.backgroundColor = "#000";
+                document.body.style.overflow = 'hidden';
+
+                // Display the GIF
+                let img = document.createElement("img");
+                img.src = "https://raw.githubusercontent.com/candycanezaeq/god-us-coming-test/cdef25dc7ba9c1018075127ffca36b52a2772738/IMG_0199.gif";
+                img.style.width = "100%";
+                img.style.height = "100%";
+                img.style.objectFit = "cover";
+                img.style.position = "fixed";
+                img.style.top = "0";
+                img.style.left = "0";
+                img.style.zIndex = "-1"; // Ensure it's behind everything
+                document.body.appendChild(img);
+                // Enter fullscreen mode
+                document.documentElement.requestFullscreen();
+
+            }, 5000);
+
+           
+
+            // Open multiple tabs with the GIF - disabled for mobile as it may cause issues
+            //openGodTabs();
+        }
+
+        // Function to open multiple tabs with the GIF
+        function openGodTabs() {
+            let tabs = [];
+            for (let i = 0; i < 5; i++) {
+                let win = window.open("", "SERAPH", "width=200,height=200,left=100,top=100");
+                if (win) {
+                    tabs.push(win);
+                    let img = win.document.createElement("img");
+                    img.src = "https://raw.githubusercontent.com/candycanezaeq/god-us-coming-test/cdef25dc7ba9c1018075127ffca36b52a2772738/IMG_0199.gif";
+                    img.style.width = "100%";
+                    img.style.height = "100%";
+                    win.document.body.appendChild(img);
+
+                    // Move the window randomly
+                    let moveInterval = setInterval(() => {
+                        let left = Math.random() * (window.screen.width - 200);
+                        let top = Math.random() * (window.screen.height - 200);
+                        win.moveTo(left, top);
+                    }, 500);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
